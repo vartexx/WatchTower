@@ -14,7 +14,7 @@ export const AegisScannerHub: React.FC<AegisScannerHubProps> = ({
   const [activeScanType, setActiveScanType] = useState<string | null>(null);
   const [progress, setProgress] = useState<number>(0);
   const [logs, setLogs] = useState<string[]>([
-    '[INIT] Aegis // Watchtower Automated Security Engine initialized.',
+    '[INIT] Watchtower Automated Security Engine initialized.',
     '[READY] Target mapped: /target:ro (World Monitor repository)',
     '[SAFETY] Safe PoC Sinkhole active (127.0.0.1 sandbox)',
     '[READY] Select an engine profile below to execute an automated audit...'

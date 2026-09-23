@@ -47,7 +47,7 @@
   }
 }
 
-/* Aegis Animations */
+/* Watchtower Animations */
 @keyframes spin {
   to {
     transform: rotate(360deg);

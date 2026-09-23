@@ -54,13 +54,13 @@ export const AegisJudgePitch: React.FC = () => {
     },
     {
       title: "Slide 3: Core Innovations & Differentiation",
-      subtitle: "Why Aegis // Watchtower beats generic scanners (Burp Suite, Nessus)",
+      subtitle: "Why Watchtower beats generic scanners (Burp Suite, Nessus)",
       content: (
         <div className="space-y-3 font-mono text-xs">
           <div className="p-3 bg-[#12242c] border border-[#253740] rounded-sm">
             <strong className="text-[#6be1d6] font-syne block text-xs">1. Human-in-the-Loop Triage</strong>
             <p className="text-[#7f939d] text-[11px] mt-1">
-              Automated scanners dump 500+ false alarms. Aegis allows analysts to confirm or reject findings, eliminating false positives before official submission.
+              Automated scanners dump 500+ false alarms. Watchtower allows analysts to confirm or reject findings, eliminating false positives before official submission.
             </p>
           </div>
           <div className="p-3 bg-[#12242c] border border-[#253740] rounded-sm">
@@ -83,7 +83,7 @@ export const AegisJudgePitch: React.FC = () => {
   const qnaList = [
     {
       q: "Judge: 'Why did you build an automated tool instead of just presenting a PDF report?'",
-      a: "A static PDF becomes obsolete the moment new code is committed. Aegis Watchtower is a continuous VAPT platform containerized in Docker that runs ongoing SAST, dependency, and header checks as World Monitor evolves."
+      a: "A static PDF becomes obsolete the moment new code is committed. Watchtower is a continuous VAPT platform containerized in Docker that runs ongoing SAST, dependency, and header checks as World Monitor evolves."
     },
     {
       q: "Judge: 'How do you ensure you don't crash or corrupt World Monitor during penetration testing?'",

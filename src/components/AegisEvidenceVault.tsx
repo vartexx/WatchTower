@@ -10,7 +10,7 @@ export const AegisEvidenceVault: React.FC = () => {
       file: 'evidence://WM-004/request-response.txt',
       timestamp: '2026-09-23T04:18:06Z',
       hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-      content: `# AEGIS CONTROLLED SIMULATION // CHAIN OF CUSTODY
+      content: `# WATCHTOWER CONTROLLED SIMULATION // CHAIN OF CUSTODY
 # Finding: WM-004 Missing authorization on report export (IDOR)
 # Target: World Monitor /api/v1/reports/export
 
@@ -19,7 +19,7 @@ Authorization: Bearer [analyst-guest-session-token]
 
 HTTP/1.1 200 OK
 content-type: application/json
-x-aegis-observation: unauthorized data returned across tenancy boundary
+x-watchtower-observation: unauthorized data returned across tenancy boundary
 
 {
   "report_id": "other-user-8821",
@@ -38,7 +38,7 @@ x-aegis-observation: unauthorized data returned across tenancy boundary
       file: 'evidence://WM-001/ssrf-sinkhole.txt',
       timestamp: '2026-09-23T04:22:19Z',
       hash: '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08',
-      content: `# AEGIS CONTROLLED SIMULATION // CHAIN OF CUSTODY
+      content: `# WATCHTOWER CONTROLLED SIMULATION // CHAIN OF CUSTODY
 # Finding: WM-001 SSRF Filter Bypass via IPv4/IPv6 Mapping
 # Target: /api/rss-proxy?url=http://[::ffff:127.0.0.1]:3000/
 
@@ -65,7 +65,7 @@ x-watchtower-sinkhole: intercepted by 127.0.0.1 safety sandbox
       file: 'evidence://WM-002/session-replay.txt',
       timestamp: '2026-09-23T04:25:44Z',
       hash: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
-      content: `# AEGIS CONTROLLED SIMULATION // CHAIN OF CUSTODY
+      content: `# WATCHTOWER CONTROLLED SIMULATION // CHAIN OF CUSTODY
 # Finding: WM-002 Session token persists after user logout
 # Target: Authentication Session Layer
 
@@ -79,7 +79,7 @@ $ request --method GET --path /api/user/profile
 Authorization: Bearer sess_user_8821_active (REPLAY ATTEMPT)
 
 HTTP/1.1 200 OK
-x-aegis-observation: revoked token remains valid in memory cache!
+x-watchtower-observation: revoked token remains valid in memory cache!
 { "user_id": "usr_8821", "role": "analyst", "session_valid": true }
 
 # Cryptographic Seal: SHA-256 integrity verified
@@ -91,7 +91,7 @@ x-aegis-observation: revoked token remains valid in memory cache!
       file: 'evidence://WM-011/header-analysis.txt',
       timestamp: '2026-09-23T04:29:10Z',
       hash: '4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a',
-      content: `# AEGIS CONTROLLED SIMULATION // CHAIN OF CUSTODY
+      content: `# WATCHTOWER CONTROLLED SIMULATION // CHAIN OF CUSTODY
 # Finding: WM-011 Missing security headers on web surface
 # Target: worldmonitor.app web server
 

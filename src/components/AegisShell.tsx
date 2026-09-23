@@ -77,7 +77,7 @@ export const AegisShell: React.FC<AegisShellProps> = ({
         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('overview')}>
           <span className="text-[#6be1d6] text-2xl font-bold">✳</span>
           <div>
-            <div className="font-syne font-extrabold text-xl tracking-wider text-white">AEGIS</div>
+            <div className="font-syne font-extrabold text-xl tracking-wider text-white">WATCHTOWER</div>
             <div className="text-[10px] text-[#7f939d] tracking-widest uppercase">NTRO // SIH 2026 · PS 26163</div>
           </div>
         </div>

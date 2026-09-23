@@ -391,7 +391,7 @@ if (fs.existsSync(SIH26163_PATH)) {
   app.use('/aegis', express.static(SIH26163_PATH));
 }
 
-// Serve unified Aegis // Watchtower security platform from dist
+// Serve unified Watchtower security platform from dist
 const DIST_PATH = path.resolve(__dirname, '../dist');
 if (fs.existsSync(DIST_PATH)) {
   // Static assets from dist

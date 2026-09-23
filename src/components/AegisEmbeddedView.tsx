@@ -25,7 +25,7 @@ export const AegisEmbeddedView: React.FC = () => {
           <div>
             <div className="flex items-center space-x-2">
               <h2 className="text-lg font-bold text-white tracking-wide">
-                Aegis // World Monitor Security Assessment
+                Watchtower // World Monitor Security Assessment
               </h2>
               <span className="px-2 py-0.5 text-xs font-mono font-medium rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1">
                 <ShieldCheck className="w-3 h-3" />
@@ -43,7 +43,7 @@ export const AegisEmbeddedView: React.FC = () => {
           <button
             onClick={handleReload}
             className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-cyber-800/80 hover:bg-cyber-700 border border-cyber-600/60 text-xs font-mono text-slate-200 hover:text-white transition-all shadow-sm"
-            title="Reload Aegis UI Frame"
+            title="Reload UI Frame"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reload Frame</span>
@@ -90,7 +90,7 @@ export const AegisEmbeddedView: React.FC = () => {
             <span className="text-cyan-400">http://localhost:3001/sih26163/</span>
           </div>
           <div className="flex items-center space-x-3 text-slate-400">
-            <span>Alias: <code className="text-slate-300">/aegis</code></span>
+            <span>Route: <code className="text-slate-300">/sih26163</code></span>
             <span>•</span>
             <span className="flex items-center space-x-1 text-emerald-400">
               <Layers className="w-3 h-3" />
@@ -103,7 +103,7 @@ export const AegisEmbeddedView: React.FC = () => {
           key={iframeKey}
           ref={iframeRef}
           src="/sih26163/"
-          title="Aegis // World Monitor Security Assessment"
+          title="Watchtower // World Monitor Security Assessment"
           className={`w-full bg-slate-950 transition-all ${
             isFullscreen ? 'h-[calc(100vh-8.5rem)]' : 'h-[calc(100vh-16rem)] min-h-[780px]'
           }`}

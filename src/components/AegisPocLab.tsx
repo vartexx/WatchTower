@@ -206,7 +206,7 @@ export const AegisPocLab: React.FC = () => {
             pocResult.rawOutput || JSON.stringify(pocResult, null, 2)
           ) : (
             <span className="text-[#557078]">
-              # AEGIS SAFE POC LAB // CONTROLLED SIMULATION{'\n'}
+              # WATCHTOWER SAFE POC LAB // CONTROLLED SIMULATION{'\n'}
               # Ready to trigger non-destructive probe against sandbox.{'\n'}
               # Click "Execute Safe PoC Probe" above to capture live proof-of-concept output.
             </span>

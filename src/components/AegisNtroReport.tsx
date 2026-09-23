@@ -33,7 +33,7 @@ export const AegisNtroReport: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `NTRO_PS26163_AEGIS_VAPT_Report_${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `NTRO_PS26163_WATCHTOWER_VAPT_Report_${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -91,7 +91,7 @@ export const AegisNtroReport: React.FC = () => {
         <div className="lg:col-span-5 bg-[#173138] p-8 lg:p-10 flex flex-col justify-between relative border-b lg:border-b-0 lg:border-r border-[#253740]">
           <div>
             <div className="font-syne font-extrabold text-xl tracking-wider text-[#6be1d6]">
-              ✳ AEGIS // WATCHTOWER
+              ✳ WATCHTOWER
             </div>
             <span className="block text-[10px] text-[#9fc1bd] mt-12 tracking-widest uppercase">
               CONFIDENTIAL // AUTHORIZED USE ONLY
