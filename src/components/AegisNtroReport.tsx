@@ -108,11 +108,15 @@ export const AegisNtroReport: React.FC = () => {
           <div className="mt-12 flex items-center justify-between pt-6 border-t border-[#345963]">
             <div className="text-[10px] text-[#9fc1bd]">
               <span>EVALUATION DATE</span>
-              <strong className="block text-white font-syne mt-0.5">{report.auditDate}</strong>
+              <strong className="block text-white font-syne mt-0.5">
+                {report.targetSystem?.assessmentPeriod || new Date().toISOString().slice(0, 10)}
+              </strong>
             </div>
             <div className="border border-[#c2e66b] text-[#c2e66b] text-[10px] px-3 py-1.5 rounded-sm font-syne font-bold text-center">
               FINAL<br />
-              <b className="text-xl block">{report.stats.confirmed}</b>
+              <b className="text-xl block">
+                {report.summary?.confirmedVulnerabilities ?? report.confirmedFindings?.length ?? 0}
+              </b>
               FINDINGS
             </div>
           </div>
@@ -134,7 +138,11 @@ export const AegisNtroReport: React.FC = () => {
             {/* Report Facts Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 mt-6 border-t border-[#253740]">
               <div>
-                <b className="font-syne font-bold text-2xl text-[#ff746d] block">{report.stats.maxCvss.toFixed(1)}</b>
+                <b className="font-syne font-bold text-2xl text-[#ff746d] block">
+                  {report.confirmedFindings && report.confirmedFindings.length > 0
+                    ? Math.max(...report.confirmedFindings.map(f => f.cvssScore)).toFixed(1)
+                    : (report.summary?.averageCvssScore || 9.1).toFixed(1)}
+                </b>
                 <span className="text-[10px] text-[#7f939d] mt-1 block">Max CVSS</span>
               </div>
               <div>
@@ -174,7 +182,7 @@ export const AegisNtroReport: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#253740]">
-              {report.complianceMapping.owaspTop10.map((item, i) => (
+              {(report.complianceMapping?.owaspTop10 || []).map((item, i) => (
                 <tr key={i} className="hover:bg-[#1b333b]/40">
                   <td className="py-2.5 text-white">{item.id}</td>
                   <td className="py-2.5 text-center">{item.findingsCount}</td>
@@ -208,13 +216,51 @@ export const AegisNtroReport: React.FC = () => {
           Statutory compliance review mandated for Indian sovereignty and data fiduciary obligations:
         </p>
         <ul className="space-y-2 mt-2">
-          {report.complianceMapping.dpdpAct2023.issues.map((issue, idx) => (
+          {(report.complianceMapping?.dpdpAct2023?.issues || []).map((issue, idx) => (
             <li key={idx} className="flex items-start space-x-2 text-xs text-[#efb867] bg-[#0c1820] p-3 rounded border border-[#253740]">
               <span className="text-[#ff746d] font-bold">⚠</span>
               <span>{issue}</span>
             </li>
           ))}
         </ul>
+      </div>
+
+      {/* Confirmed Findings Remediation Deliverable */}
+      <div className="border border-[#253740] bg-gradient-to-br from-[#152831] to-[#102029] p-6 rounded-sm shadow-md space-y-4">
+        <div className="flex items-center justify-between border-b border-[#253740] pb-3">
+          <h4 className="font-syne font-bold text-base text-white">
+            Confirmed Vulnerabilities & Required Remediations
+          </h4>
+          <span className="text-xs text-[#6be1d6]">
+            {(report.confirmedFindings || []).length} Validated Issues
+          </span>
+        </div>
+
+        <div className="divide-y divide-[#253740]">
+          {(report.confirmedFindings || []).map((f) => (
+            <div key={f.id} className="py-3.5 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded font-syne font-bold uppercase ${
+                    f.severity === 'Critical' || f.severity === 'CRITICAL' ? 'text-[#ff746d] bg-[#ff746d]/10 border border-[#ff746d]/30' :
+                    f.severity === 'High' || f.severity === 'HIGH' ? 'text-[#ff746d] bg-[#ff746d]/10 border border-[#ff746d]/30' :
+                    f.severity === 'Medium' || f.severity === 'MEDIUM' ? 'text-[#efb867] bg-[#efb867]/10 border border-[#efb867]/30' :
+                    'text-[#77a9ff] bg-[#77a9ff]/10 border border-[#77a9ff]/30'
+                  }`}>
+                    {f.severity}
+                  </span>
+                  <strong className="text-white text-xs font-syne font-semibold">{f.title}</strong>
+                  <span className="text-[#7f939d] text-[10px]">({f.id})</span>
+                </div>
+                <span className="font-syne font-bold text-white text-xs">CVSS {f.cvssScore.toFixed(1)}</span>
+              </div>
+              <p className="text-[11px] text-[#7f939d] m-0">{f.description}</p>
+              <div className="text-[10px] text-[#c2e66b] bg-[#0c1820] p-2 rounded border border-[#253740]">
+                <b>Fix:</b> {f.remediation}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

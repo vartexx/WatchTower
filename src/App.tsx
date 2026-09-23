@@ -9,6 +9,7 @@ import { AegisEvidenceVault } from './components/AegisEvidenceVault';
 import { AegisNtroReport } from './components/AegisNtroReport';
 import { AegisJudgePitch } from './components/AegisJudgePitch';
 import { FindingModal } from './components/FindingModal';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Finding, SystemStatus } from './types';
 
 export const App: React.FC = () => {
@@ -118,41 +119,43 @@ export const App: React.FC = () => {
       onQuickScan={handleQuickScan}
       isScanning={isScanning}
     >
-      {activeTab === 'overview' && (
-        <AegisMissionControl
-          status={status}
-          findings={findings}
-          onNavigateTab={setActiveTab}
-          onRunScan={handleQuickScan}
-          isScanning={isScanning}
-        />
-      )}
+      <ErrorBoundary key={activeTab}>
+        {activeTab === 'overview' && (
+          <AegisMissionControl
+            status={status}
+            findings={findings}
+            onNavigateTab={setActiveTab}
+            onRunScan={handleQuickScan}
+            isScanning={isScanning}
+          />
+        )}
 
-      {activeTab === 'surface' && <AegisAttackSurface />}
+        {activeTab === 'surface' && <AegisAttackSurface />}
 
-      {activeTab === 'scanner' && (
-        <AegisScannerHub
-          onScanComplete={refreshAll}
-          onNavigateToTriage={() => setActiveTab('findings')}
-        />
-      )}
+        {activeTab === 'scanner' && (
+          <AegisScannerHub
+            onScanComplete={refreshAll}
+            onNavigateToTriage={() => setActiveTab('findings')}
+          />
+        )}
 
-      {activeTab === 'findings' && (
-        <AegisFindings
-          findings={findings}
-          onSelectFindingForModal={(f) => setSelectedFinding(f)}
-          onNavigateToPoc={() => setActiveTab('poc')}
-          onUpdateFindingStatus={handleUpdateFindingStatus}
-        />
-      )}
+        {activeTab === 'findings' && (
+          <AegisFindings
+            findings={findings}
+            onSelectFindingForModal={(f) => setSelectedFinding(f)}
+            onNavigateToPoc={() => setActiveTab('poc')}
+            onUpdateFindingStatus={handleUpdateFindingStatus}
+          />
+        )}
 
-      {activeTab === 'poc' && <AegisPocLab />}
+        {activeTab === 'poc' && <AegisPocLab />}
 
-      {activeTab === 'evidence' && <AegisEvidenceVault />}
+        {activeTab === 'evidence' && <AegisEvidenceVault />}
 
-      {activeTab === 'report' && <AegisNtroReport />}
+        {activeTab === 'report' && <AegisNtroReport />}
 
-      {activeTab === 'pitch' && <AegisJudgePitch />}
+        {activeTab === 'pitch' && <AegisJudgePitch />}
+      </ErrorBoundary>
 
       {/* CVSS Modal */}
       {selectedFinding && (
