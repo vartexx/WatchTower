@@ -117,14 +117,14 @@ x-powered-by: Express
   return (
     <div className="space-y-6 animate-fade-in pb-12">
       {/* Intro */}
-      <div className="border-b border-[#253740] pb-4">
-        <span className="text-[10px] text-[#6be1d6] tracking-widest uppercase block font-mono">
+      <div className="border-b border-[#181f2e] pb-4">
+        <span className="text-[10px] text-[#00f0ff] tracking-widest uppercase block font-mono">
           CHAIN OF CUSTODY // VERIFICATION
         </span>
         <h2 className="font-syne font-extrabold text-3xl text-white tracking-tight mt-1">
-          Evidence <em className="text-[#6be1d6] not-italic font-normal">vault</em>
+          Evidence <em className="text-[#00f0ff] not-italic font-semibold">vault</em>
         </h2>
-        <p className="text-xs text-[#7f939d] max-w-xl mt-2 leading-relaxed">
+        <p className="text-xs text-[#94a3b8] max-w-xl mt-2 leading-relaxed">
           Immutable, timestamped proof that keeps every claim defensible before NTRO evaluators.
         </p>
       </div>
@@ -137,8 +137,8 @@ x-powered-by: Express
             onClick={() => setSelectedArtifact(key)}
             className={`px-3 py-1.5 rounded-sm text-xs font-mono transition-all border ${
               selectedArtifact === key
-                ? 'border-[#6be1d6] bg-[#162d35] text-[#6be1d6]'
-                : 'border-[#253740] text-[#7f939d] hover:text-white'
+                ? 'border-[#00f0ff] bg-[#0c1825] text-[#00f0ff] shadow-[0_0_12px_rgba(0,240,255,0.2)]'
+                : 'border-[#181f2e] bg-[#0c0e14] text-[#94a3b8] hover:text-white hover:border-[#2a374f]'
             }`}
           >
             {item.id} · {item.title}
@@ -149,38 +149,38 @@ x-powered-by: Express
       {/* Evidence Layout: Summary Card on Left, Terminal on Right */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Left: Sealed Vault Summary */}
-        <div className="lg:col-span-4 border border-[#253740] bg-gradient-to-br from-[#152831] to-[#102029] p-6 rounded-sm flex flex-col items-center justify-center text-center space-y-4">
-          <div className="w-14 h-14 rounded-full border border-[#6be1d6]/50 bg-[#162f38] text-[#6be1d6] text-2xl grid place-items-center">
+        <div className="lg:col-span-4 border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-6 rounded-sm flex flex-col items-center justify-center text-center space-y-4">
+          <div className="w-14 h-14 rounded-full border border-[#00f0ff]/40 bg-[#091522] text-[#00f0ff] text-2xl grid place-items-center shadow-[0_0_20px_rgba(0,240,255,0.25)]">
             ▣
           </div>
           <div>
             <strong className="block font-syne font-extrabold text-5xl text-white">18</strong>
-            <span className="text-xs text-[#7f939d] mt-1 block">sealed artifacts</span>
+            <span className="text-xs text-[#94a3b8] mt-1 block">sealed artifacts</span>
           </div>
 
-          <div className="text-[10px] text-[#c2e66b] border border-[#46613b] bg-[#16281e] p-2.5 rounded font-mono break-all text-left">
-            <span className="block text-[#7f939d] text-[9px] uppercase">SHA-256 INTEGRITY HASH</span>
+          <div className="text-[10px] text-[#00ff9d] border border-[#00ff9d]/30 bg-[#06140f] p-3 rounded font-mono break-all text-left">
+            <span className="block text-[#64748b] text-[9px] uppercase">SHA-256 INTEGRITY HASH</span>
             {current.hash}
           </div>
 
-          <p className="text-[10px] text-[#7f939d] leading-relaxed pt-2">
+          <p className="text-[10px] text-[#64748b] leading-relaxed pt-2">
             Non-destructive digital evidence sealed under NTRO PS 26163 chain-of-custody guidelines.
           </p>
         </div>
 
         {/* Right: Evidence Terminal */}
-        <div className="lg:col-span-8 border border-[#253740] bg-[#0c1820] rounded-sm overflow-hidden shadow-2xl">
-          <div className="h-10 border-b border-[#253740] px-4 flex items-center justify-between bg-[#10202a] text-[10px] text-[#7f939d]">
+        <div className="lg:col-span-8 border border-[#181f2e] bg-[#05070a] rounded-sm overflow-hidden shadow-2xl">
+          <div className="h-10 border-b border-[#181f2e] px-4 flex items-center justify-between bg-[#080b10] text-[10px] text-[#94a3b8]">
             <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#ff746d] inline-block"></span>
-              <span className="w-2.5 h-2.5 rounded-full bg-[#efb867] inline-block"></span>
-              <span className="w-2.5 h-2.5 rounded-full bg-[#c2e66b] inline-block"></span>
-              <span className="ml-2 font-syne text-[#e6edf0] font-semibold">{current.file}</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ff2a5f] inline-block shadow-[0_0_6px_rgba(255,42,95,0.6)]"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ffb703] inline-block shadow-[0_0_6px_rgba(255,183,3,0.6)]"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#00ff9d] inline-block shadow-[0_0_6px_rgba(0,255,157,0.6)]"></span>
+              <span className="ml-2 font-syne text-white font-semibold">{current.file}</span>
             </div>
-            <span className="text-[#c2e66b] font-mono">SEALED & VERIFIED</span>
+            <span className="text-[#00ff9d] font-mono">SEALED & VERIFIED</span>
           </div>
 
-          <pre className="p-6 font-mono text-xs text-[#e6edf0] leading-relaxed whitespace-pre-wrap bg-[#0a151b] max-h-[500px] overflow-y-auto">
+          <pre className="p-6 font-mono text-xs text-white/90 leading-relaxed whitespace-pre-wrap bg-[#030406] max-h-[500px] overflow-y-auto">
             {current.content}
           </pre>
         </div>

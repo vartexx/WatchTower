@@ -50,8 +50,22 @@ export const App: React.FC = () => {
     fetchFindings();
   };
 
+  const changeTab = (tab: string) => {
+    setActiveTab(tab);
+    window.location.hash = tab;
+  };
+
   useEffect(() => {
     refreshAll();
+    const handleHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['overview', 'surface', 'scanner', 'findings', 'poc', 'evidence', 'report', 'pitch'].includes(hash)) {
+        setActiveTab(hash);
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
   const handleQuickScan = async () => {
@@ -112,7 +126,7 @@ export const App: React.FC = () => {
   return (
     <AegisShell
       activeTab={activeTab}
-      setActiveTab={setActiveTab}
+      setActiveTab={changeTab}
       status={status}
       findingsCount={findings.length}
       onReset={handleReset}
@@ -124,7 +138,7 @@ export const App: React.FC = () => {
           <AegisMissionControl
             status={status}
             findings={findings}
-            onNavigateTab={setActiveTab}
+            onNavigateTab={changeTab}
             onRunScan={handleQuickScan}
             isScanning={isScanning}
           />
@@ -135,7 +149,7 @@ export const App: React.FC = () => {
         {activeTab === 'scanner' && (
           <AegisScannerHub
             onScanComplete={refreshAll}
-            onNavigateToTriage={() => setActiveTab('findings')}
+            onNavigateToTriage={() => changeTab('findings')}
           />
         )}
 
@@ -143,7 +157,7 @@ export const App: React.FC = () => {
           <AegisFindings
             findings={findings}
             onSelectFindingForModal={(f) => setSelectedFinding(f)}
-            onNavigateToPoc={() => setActiveTab('poc')}
+            onNavigateToPoc={() => changeTab('poc')}
             onUpdateFindingStatus={handleUpdateFindingStatus}
           />
         )}
