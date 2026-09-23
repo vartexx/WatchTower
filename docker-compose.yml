@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  watchtower:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: watchtower-vapt
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - TARGET_PATH=/target
+    volumes:
+      # Mount local World Monitor repo read-only for scanning
+      - ./worldmonitor:/target:ro
+      # Persist findings database and reports
+      - ./server/data:/app/server/data
+    networks:
+      - sih-audit-net
+
+networks:
+  sih-audit-net:
+    driver: bridge
