@@ -7,7 +7,6 @@ import { AegisFindings } from './components/AegisFindings';
 import { AegisPocLab } from './components/AegisPocLab';
 import { AegisEvidenceVault } from './components/AegisEvidenceVault';
 import { AegisNtroReport } from './components/AegisNtroReport';
-import { AegisJudgePitch } from './components/AegisJudgePitch';
 import { FindingModal } from './components/FindingModal';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Finding, SystemStatus } from './types';
@@ -59,7 +58,7 @@ export const App: React.FC = () => {
     refreshAll();
     const handleHash = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['overview', 'surface', 'scanner', 'findings', 'poc', 'evidence', 'report', 'pitch'].includes(hash)) {
+      if (['overview', 'surface', 'scanner', 'findings', 'poc', 'evidence', 'report'].includes(hash)) {
         setActiveTab(hash);
       }
     };
@@ -167,8 +166,6 @@ export const App: React.FC = () => {
         {activeTab === 'evidence' && <AegisEvidenceVault />}
 
         {activeTab === 'report' && <AegisNtroReport />}
-
-        {activeTab === 'pitch' && <AegisJudgePitch />}
       </ErrorBoundary>
 
       {/* CVSS Modal */}

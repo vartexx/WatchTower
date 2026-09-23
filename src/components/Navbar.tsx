@@ -5,7 +5,6 @@ import {
   Terminal, 
   FileText, 
   AlertTriangle, 
-  Presentation, 
   Cpu, 
   CheckCircle2, 
   RotateCcw,
@@ -39,7 +38,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'poc', label: 'Safe PoC Lab', icon: Cpu },
     { id: 'report', label: 'NTRO Official Report', icon: FileText },
     { id: 'sih26163', label: 'Watchtower UI (SIH26163)', icon: Sparkles, highlight: true },
-    { id: 'pitch', label: 'Judge Pitch & Q&A', icon: Presentation },
   ];
 
   return (

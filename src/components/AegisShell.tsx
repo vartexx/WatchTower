@@ -43,7 +43,6 @@ export const AegisShell: React.FC<AegisShellProps> = ({
     { id: 'poc', symbol: '◫', label: 'Safe PoC lab', tag: 'LAB' },
     { id: 'evidence', symbol: '▣', label: 'Evidence vault', tag: '18' },
     { id: 'report', symbol: '↗', label: 'NTRO readout', tag: 'PDF' },
-    { id: 'pitch', symbol: '✦', label: 'Judge pitch & Q&A', tag: 'VAPT' },
   ];
 
   const getViewTitle = () => {
@@ -62,8 +61,6 @@ export const AegisShell: React.FC<AegisShellProps> = ({
         return 'Evidence chain of custody';
       case 'report':
         return 'Official NTRO assessment readout';
-      case 'pitch':
-        return 'SIH evaluator battlecards & defense';
       default:
         return 'Security assessment cockpit';
     }
