@@ -72,18 +72,20 @@ export const AegisShell: React.FC<AegisShellProps> = ({
   return (
     <div className="flex min-h-screen bg-[#0b161d] text-[#e6edf0] font-mono selection:bg-[#6be1d6] selection:text-[#0b161d]">
       {/* Watchtower Left Sidebar */}
-      <aside className="w-72 flex-none border-r border-[#253740] px-5 py-6 flex flex-col bg-[#0a161d]/90 backdrop-blur-md sticky top-0 h-screen overflow-y-auto">
+      <aside className="w-72 flex-none border-r border-[#253740] px-5 py-6 flex flex-col bg-[#0a161d]/90 backdrop-blur-md sticky top-0 h-screen overflow-y-auto overflow-x-hidden">
         {/* Brand */}
         <div 
-          className="flex items-center space-x-3 cursor-pointer group select-none" 
+          className="flex items-center space-x-2.5 cursor-pointer group select-none pb-1" 
           onClick={() => setActiveTab('overview')}
         >
-          <span className="text-[#6be1d6] text-2xl font-bold leading-none flex-none transition-transform group-hover:rotate-45">✳</span>
-          <div className="min-w-0 flex-1">
-            <div className="font-syne font-extrabold text-[19px] tracking-wide text-white whitespace-nowrap leading-tight">
+          <div className="w-8 h-8 rounded bg-[#132c35] border border-[#6be1d6]/50 flex items-center justify-center flex-none group-hover:border-[#6be1d6] group-hover:shadow-[0_0_10px_rgba(107,225,214,0.3)] transition-all">
+            <span className="text-[#6be1d6] text-base font-bold leading-none transition-transform group-hover:scale-110">✳</span>
+          </div>
+          <div className="min-w-0">
+            <div className="font-syne font-extrabold text-[15px] tracking-wide text-white whitespace-nowrap leading-none">
               WATCHTOWER
             </div>
-            <div className="text-[9.5px] text-[#7f939d] tracking-widest uppercase whitespace-nowrap leading-normal mt-0.5">
+            <div className="text-[9px] text-[#7f939d] tracking-widest uppercase whitespace-nowrap leading-none mt-1">
               NTRO // SIH 2026 · PS 26163
             </div>
           </div>

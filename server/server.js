@@ -394,8 +394,14 @@ if (fs.existsSync(SIH26163_PATH)) {
 // Serve unified Watchtower security platform from dist
 const DIST_PATH = path.resolve(__dirname, '../dist');
 if (fs.existsSync(DIST_PATH)) {
-  // Static assets from dist
-  app.use(express.static(DIST_PATH));
+  // Static assets from dist (prevent browser from holding onto stale cached CSS/JS)
+  app.use(express.static(DIST_PATH, {
+    setHeaders: (res) => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  }));
 
   // Serve root / and all SPA routes
   app.get('*', (req, res) => {
