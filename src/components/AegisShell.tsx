@@ -71,14 +71,21 @@ export const AegisShell: React.FC<AegisShellProps> = ({
 
   return (
     <div className="flex min-h-screen bg-[#0b161d] text-[#e6edf0] font-mono selection:bg-[#6be1d6] selection:text-[#0b161d]">
-      {/* Aegis Left Sidebar */}
-      <aside className="w-64 flex-none border-r border-[#253740] p-6 flex flex-col bg-[#0a161d]/90 backdrop-blur-md sticky top-0 h-screen overflow-y-auto">
+      {/* Watchtower Left Sidebar */}
+      <aside className="w-72 flex-none border-r border-[#253740] px-5 py-6 flex flex-col bg-[#0a161d]/90 backdrop-blur-md sticky top-0 h-screen overflow-y-auto">
         {/* Brand */}
-        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('overview')}>
-          <span className="text-[#6be1d6] text-2xl font-bold">✳</span>
-          <div>
-            <div className="font-syne font-extrabold text-xl tracking-wider text-white">WATCHTOWER</div>
-            <div className="text-[10px] text-[#7f939d] tracking-widest uppercase">NTRO // SIH 2026 · PS 26163</div>
+        <div 
+          className="flex items-center space-x-3 cursor-pointer group select-none" 
+          onClick={() => setActiveTab('overview')}
+        >
+          <span className="text-[#6be1d6] text-2xl font-bold leading-none flex-none transition-transform group-hover:rotate-45">✳</span>
+          <div className="min-w-0 flex-1">
+            <div className="font-syne font-extrabold text-[19px] tracking-wide text-white whitespace-nowrap leading-tight">
+              WATCHTOWER
+            </div>
+            <div className="text-[9.5px] text-[#7f939d] tracking-widest uppercase whitespace-nowrap leading-normal mt-0.5">
+              NTRO // SIH 2026 · PS 26163
+            </div>
           </div>
         </div>
 

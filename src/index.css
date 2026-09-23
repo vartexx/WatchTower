@@ -140,6 +140,84 @@
   box-shadow: 0 0 15px -3px rgba(194, 230, 107, 0.4);
 }
 
+/* Threat Map Nodes */
+.node {
+  position: absolute;
+  border: 1px solid #3c626a;
+  background: #132a33;
+  padding: 8px 12px;
+  min-width: 130px;
+  border-radius: 2px;
+}
+.node span {
+  font-size: 9px;
+  color: #6be1d6;
+  display: block;
+}
+.node b {
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  display: block;
+  margin: 3px 0;
+  color: #e6edf0;
+}
+.node small {
+  color: #7f939d;
+  font-size: 9px;
+  display: block;
+}
+.node-core {
+  top: 38%;
+  left: 38%;
+  text-align: center;
+  border-color: #6be1d6;
+}
+.node-api {
+  top: 9%;
+  left: 4%;
+}
+.node-auth {
+  top: 9%;
+  right: 4%;
+}
+.node-data {
+  bottom: 9%;
+  left: 43%;
+}
+.risk-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-left: 6px;
+}
+.risk-dot.red {
+  background: #ff746d;
+  box-shadow: 0 0 8px #ff746d;
+}
+.risk-dot.amber {
+  background: #efb867;
+  box-shadow: 0 0 8px #efb867;
+}
+.risk-dot.lime {
+  background: #c2e66b;
+  box-shadow: 0 0 8px #c2e66b;
+}
+.map-legend {
+  position: absolute;
+  bottom: 6px;
+  left: 8px;
+  color: #7f939d;
+  display: flex;
+  gap: 15px;
+  font-size: 9px;
+}
+.map-legend i {
+  margin: 0 5px 0 0;
+}
+
+
 /* Print stylesheet for official NTRO PDF report export */
 @media print {
   body {
