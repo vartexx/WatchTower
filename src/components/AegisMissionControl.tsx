@@ -1,6 +1,7 @@
 import React from 'react';
 import { Finding, SystemStatus } from '../types';
 import { Shield, AlertTriangle, CheckCircle2, ArrowUpRight, Activity } from 'lucide-react';
+import { TypewriterText } from './TypewriterText';
 
 interface AegisMissionControlProps {
   status: SystemStatus | null;
@@ -28,7 +29,7 @@ export const AegisMissionControl: React.FC<AegisMissionControlProps> = ({
   const securityScore = Math.max(15, Math.min(95, 100 - deductions));
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-tab-enter">
       {/* Hero Row: Assessment Headline & Animated Radar */}
       <div className="flex flex-col lg:flex-row items-start justify-between gap-8 pb-4">
         <div className="flex-1 max-w-2xl">
@@ -41,6 +42,25 @@ export const AegisMissionControl: React.FC<AegisMissionControlProps> = ({
               before it spreads.
             </span>
           </h2>
+
+          {/* Dynamic Typewriter Status Banner */}
+          <div className="mt-4 inline-flex items-center space-x-2 py-1.5 px-3 rounded bg-[#07090e] border border-[#181f2e] text-xs font-mono shadow-md">
+            <span className="w-2 h-2 rounded-full bg-[#00ff9d] shadow-[0_0_8px_#00ff9d] animate-pulse inline-block flex-shrink-0"></span>
+            <span className="text-[#00f0ff] font-bold flex-shrink-0">TELEMETRY &gt;</span>
+            <TypewriterText
+              phrases={[
+                "Auditing 164 attack surface endpoints across 7 NTRO pillars.",
+                "Safe loopback sinkhole active: intercepting SSRF & IDOR probes.",
+                "Continuous mathematical CVSS v3.1 scoring with zero false positives.",
+                "Auditing Indian DPDP Act 2023 technical safeguards & retention."
+              ]}
+              typingSpeed={38}
+              deletingSpeed={18}
+              pauseDuration={2400}
+              className="text-[#38bdf8] truncate"
+            />
+          </div>
+
           <p className="text-sm text-[#94a3b8] leading-relaxed mt-4 max-w-xl">
             A controlled, evidence-first automated VAPT security assessment of the World Monitor application.
             Audit against 7 NTRO mandated pillars, validate impact mathematically via CVSS v3.1, and verify DPDP Act 2023 compliance.
@@ -105,7 +125,8 @@ export const AegisMissionControl: React.FC<AegisMissionControlProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
           {/* Card 1: Security Score */}
-          <article className="border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-4 rounded-sm flex flex-col justify-between min-h-[145px] hover:border-[#00f0ff]/30 transition-all shadow-md">
+          <article className="border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-4 rounded-sm flex flex-col justify-between min-h-[145px] cyber-card relative overflow-hidden shadow-md">
+            <div className="absolute left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#00f0ff]/30 to-transparent pointer-events-none animate-scan-beam-vertical" />
             <div className="flex justify-between items-center text-[10px] text-[#94a3b8]">
               <span>SECURITY SCORE</span>
               <span className="text-[#ff2a5f] font-mono">↓ 8.4%</span>
@@ -128,8 +149,9 @@ export const AegisMissionControl: React.FC<AegisMissionControlProps> = ({
           {/* Card 2: Open Findings */}
           <article
             onClick={() => onNavigateTab('findings')}
-            className="border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-4 rounded-sm flex flex-col justify-between min-h-[145px] cursor-pointer hover:border-[#ff2a5f]/40 transition-all shadow-md"
+            className="border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-4 rounded-sm flex flex-col justify-between min-h-[145px] cursor-pointer cyber-card relative overflow-hidden shadow-md"
           >
+            <div className="absolute left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#ff2a5f]/30 to-transparent pointer-events-none animate-scan-beam-vertical" />
             <div className="flex justify-between items-center text-[10px] text-[#94a3b8]">
               <span>OPEN FINDINGS</span>
               <span className="text-[#ff2a5f] font-mono">△ ACTIVE</span>
@@ -143,18 +165,19 @@ export const AegisMissionControl: React.FC<AegisMissionControlProps> = ({
               </p>
             </div>
             <div className="flex items-end space-x-1.5 h-4">
-              <span className="w-2.5 bg-[#ff2a5f] rounded-t-xs" style={{ height: `${Math.min(100, criticalCount * 30 + 30)}%` }}></span>
-              <span className="w-2.5 bg-[#ff2a5f]/80 rounded-t-xs" style={{ height: `${Math.min(100, highCount * 25 + 20)}%` }}></span>
-              <span className="w-2.5 bg-[#ffb703] rounded-t-xs" style={{ height: `${Math.min(100, medCount * 20 + 20)}%` }}></span>
-              <span className="w-2.5 bg-[#38bdf8] rounded-t-xs" style={{ height: `${Math.min(100, lowCount * 15 + 15)}%` }}></span>
+              <span className="w-2.5 bg-[#ff2a5f] rounded-t-xs animate-bar-1" style={{ height: `${Math.min(100, criticalCount * 30 + 30)}%` }}></span>
+              <span className="w-2.5 bg-[#ff5c38] rounded-t-xs animate-bar-2" style={{ height: `${Math.min(100, highCount * 25 + 20)}%` }}></span>
+              <span className="w-2.5 bg-[#ffb703] rounded-t-xs animate-bar-3" style={{ height: `${Math.min(100, medCount * 20 + 20)}%` }}></span>
+              <span className="w-2.5 bg-[#38bdf8] rounded-t-xs animate-bar-4" style={{ height: `${Math.min(100, lowCount * 15 + 15)}%` }}></span>
             </div>
           </article>
 
           {/* Card 3: Asset Coverage */}
           <article
             onClick={() => onNavigateTab('surface')}
-            className="border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-4 rounded-sm flex flex-col justify-between min-h-[145px] cursor-pointer hover:border-[#00ff9d]/40 transition-all shadow-md"
+            className="border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-4 rounded-sm flex flex-col justify-between min-h-[145px] cursor-pointer cyber-card relative overflow-hidden shadow-md"
           >
+            <div className="absolute left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#00ff9d]/30 to-transparent pointer-events-none animate-scan-beam-vertical" />
             <div className="flex justify-between items-center text-[10px] text-[#94a3b8]">
               <span>ASSET COVERAGE</span>
               <span className="text-[#00ff9d] font-mono">◌ COMPLETE</span>
@@ -167,16 +190,17 @@ export const AegisMissionControl: React.FC<AegisMissionControlProps> = ({
                 {status?.recon?.totalEndpoints || 164} routes inventory verified
               </p>
             </div>
-            <div className="w-full h-1 bg-[#181f2e] rounded-full overflow-hidden">
-              <div className="h-full bg-[#00ff9d] w-full"></div>
+            <div className="w-full h-1.5 bg-[#181f2e] rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-[#00f0ff] to-[#00ff9d] w-full transition-all duration-500"></div>
             </div>
           </article>
 
           {/* Card 4: Remediation Velocity / DPDP Status */}
           <article
             onClick={() => onNavigateTab('report')}
-            className="border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-4 rounded-sm flex flex-col justify-between min-h-[145px] cursor-pointer hover:border-[#ffb703]/40 transition-all shadow-md"
+            className="border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-4 rounded-sm flex flex-col justify-between min-h-[145px] cursor-pointer cyber-card relative overflow-hidden shadow-md"
           >
+            <div className="absolute left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#ffb703]/30 to-transparent pointer-events-none animate-scan-beam-vertical" />
             <div className="flex justify-between items-center text-[10px] text-[#94a3b8]">
               <span>DPDP ACT COMPLIANCE</span>
               <span className="text-[#ff2a5f] font-mono">NON-COMPLIANT</span>
@@ -199,7 +223,7 @@ export const AegisMissionControl: React.FC<AegisMissionControlProps> = ({
       {/* Dashboard Grid: Threat Model + Assessment Stream */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 pt-2">
         {/* Threat Model Map */}
-        <div className="lg:col-span-7 border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-5 rounded-sm shadow-xl">
+        <div className="lg:col-span-7 border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-5 rounded-sm shadow-xl cyber-card">
           <div className="flex items-center justify-between pb-3 border-b border-[#181f2e]">
             <div>
               <span className="text-[10px] text-[#94a3b8] tracking-widest uppercase block font-mono">THREAT MODEL</span>

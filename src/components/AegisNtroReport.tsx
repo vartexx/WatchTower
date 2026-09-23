@@ -51,7 +51,7 @@ export const AegisNtroReport: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12 font-mono">
+    <div className="space-y-6 animate-tab-enter pb-12 font-mono">
       {/* Page Intro & Actions */}
       <div className="border-b border-[#181f2e] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-4 no-print">
         <div>

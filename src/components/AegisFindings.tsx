@@ -47,7 +47,7 @@ export const AegisFindings: React.FC<AegisFindingsProps> = ({
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
+    <div className="space-y-6 animate-tab-enter pb-12">
       {/* Page Intro */}
       <div className="border-b border-[#181f2e] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
@@ -151,7 +151,7 @@ export const AegisFindings: React.FC<AegisFindingsProps> = ({
         {/* Right Column: Finding Detail Inspector */}
         <div className="lg:col-span-7 border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-6 rounded-sm flex flex-col justify-between h-[700px] overflow-y-auto">
           {selectedFinding ? (
-            <div className="space-y-5">
+            <div key={selectedFinding.id} className="space-y-5 animate-fade-in">
               <div>
                 <div className="flex items-center justify-between">
                   <span className={`text-[10px] tracking-widest font-mono uppercase font-bold ${

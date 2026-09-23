@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, CheckCircle2, ArrowRight } from 'lucide-react';
+import { TypewriterText } from './TypewriterText';
 
 interface AegisScannerHubProps {
   onScanComplete: () => void;
@@ -111,7 +112,7 @@ export const AegisScannerHub: React.FC<AegisScannerHubProps> = ({
   ];
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
+    <div className="space-y-6 animate-tab-enter pb-12">
       {/* Intro */}
       <div className="border-b border-[#181f2e] pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
@@ -121,6 +122,25 @@ export const AegisScannerHub: React.FC<AegisScannerHubProps> = ({
           <h2 className="font-syne font-extrabold text-3xl text-white tracking-tight mt-1">
             Automated scanner <em className="text-[#00f0ff] not-italic font-normal">hub</em>
           </h2>
+
+          {/* Typewriter Prompt */}
+          <div className="mt-3 inline-flex items-center space-x-2 py-1 px-3 rounded bg-[#05070a] border border-[#181f2e] text-xs font-mono shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00ff9d] animate-pulse inline-block"></span>
+            <span className="text-[#00f0ff] font-bold">ORCHESTRATOR &gt;</span>
+            <TypewriterText
+              phrases={[
+                "Awaiting multi-engine VAPT trigger on target: /target:ro...",
+                "SAST engine prepared with AST security pattern traversal rules...",
+                "SCA engine synced with National Vulnerability Database (NVD)...",
+                "HTTP response policy checker armed for OWASP secure headers benchmark."
+              ]}
+              typingSpeed={38}
+              deletingSpeed={18}
+              pauseDuration={2400}
+              className="text-[#38bdf8]"
+            />
+          </div>
+
           <p className="text-xs text-[#94a3b8] max-w-xl mt-2 leading-relaxed">
             Execute real-time non-destructive scanning against the World Monitor repository. Results automatically update the live findings database with CVSS v3.1 scoring.
           </p>
@@ -137,17 +157,24 @@ export const AegisScannerHub: React.FC<AegisScannerHubProps> = ({
         )}
       </div>
 
-      {/* Progress Bar (Visible while scanning) */}
+      {/* Progress Bar with bottom-to-top equalizer bars (Visible while scanning) */}
       {scanning && (
-        <div className="border border-[#181f2e] bg-[#0c1017] p-4 rounded-sm space-y-2 shadow-lg">
+        <div className="border border-[#181f2e] bg-[#0c1017] p-4 rounded-sm space-y-2.5 shadow-lg relative overflow-hidden animate-slide-up-dock">
+          <div className="absolute left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#00f0ff]/50 to-transparent pointer-events-none animate-scan-beam-vertical" />
           <div className="flex justify-between items-center text-xs">
             <span className="text-[#00f0ff] font-syne font-semibold flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-[#00f0ff] animate-pulse"></span>
+              {/* Equalizer bars coming from bottom to top */}
+              <div className="flex items-end space-x-0.5 h-3.5">
+                <span className="w-1 bg-[#00f0ff] rounded-xs animate-bar-1 h-3.5 inline-block" />
+                <span className="w-1 bg-[#00ff9d] rounded-xs animate-bar-2 h-3.5 inline-block" />
+                <span className="w-1 bg-[#00f0ff] rounded-xs animate-bar-3 h-3.5 inline-block" />
+                <span className="w-1 bg-[#38bdf8] rounded-xs animate-bar-4 h-3.5 inline-block" />
+              </div>
               <span>Running {activeScanType?.toUpperCase()} Scan Engine...</span>
             </span>
-            <span className="text-[#94a3b8] font-mono">{progress}%</span>
+            <span className="text-[#00ff9d] font-mono font-bold">{progress}%</span>
           </div>
-          <div className="w-full h-1.5 bg-[#181f2e] rounded-full overflow-hidden">
+          <div className="w-full h-2 bg-[#181f2e] rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-[#00f0ff] via-[#38bdf8] to-[#00ff9d] transition-all duration-300"
               style={{ width: `${progress}%` }}
@@ -161,7 +188,7 @@ export const AegisScannerHub: React.FC<AegisScannerHubProps> = ({
         {scanEngines.map((engine) => (
           <div
             key={engine.id}
-            className={`border rounded-sm p-5 flex flex-col justify-between transition-all ${
+            className={`border rounded-sm p-5 flex flex-col justify-between transition-all cyber-card ${
               engine.highlight
                 ? 'border-[#00f0ff]/50 bg-gradient-to-br from-[#0c1424] to-[#07090f] shadow-[0_0_20px_rgba(0,240,255,0.12)]'
                 : 'border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] shadow-lg hover:border-[#1e2638]'

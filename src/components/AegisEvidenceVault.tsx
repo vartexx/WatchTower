@@ -115,7 +115,7 @@ x-powered-by: Express
   const current = artifacts[selectedArtifact] || artifacts.wm004;
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
+    <div className="space-y-6 animate-tab-enter pb-12">
       {/* Intro */}
       <div className="border-b border-[#181f2e] pb-4">
         <span className="text-[10px] text-[#00f0ff] tracking-widest uppercase block font-mono">
@@ -149,7 +149,7 @@ x-powered-by: Express
       {/* Evidence Layout: Summary Card on Left, Terminal on Right */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Left: Sealed Vault Summary */}
-        <div className="lg:col-span-4 border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-6 rounded-sm flex flex-col items-center justify-center text-center space-y-4">
+        <div className="lg:col-span-4 border border-[#181f2e] bg-gradient-to-br from-[#0c0e14] to-[#07080c] p-6 rounded-sm flex flex-col items-center justify-center text-center space-y-4 cyber-card">
           <div className="w-14 h-14 rounded-full border border-[#00f0ff]/40 bg-[#091522] text-[#00f0ff] text-2xl grid place-items-center shadow-[0_0_20px_rgba(0,240,255,0.25)]">
             ▣
           </div>

@@ -50,7 +50,7 @@ export const AegisPocLab: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
+    <div className="space-y-6 animate-tab-enter pb-12">
       {/* Intro */}
       <div className="border-b border-[#181f2e] pb-4">
         <span className="text-[10px] text-[#00f0ff] tracking-widest uppercase block font-mono">
@@ -70,7 +70,7 @@ export const AegisPocLab: React.FC = () => {
         {/* SSRF Card */}
         <div
           onClick={() => { setSelectedPoc('ssrf'); setPocResult(null); }}
-          className={`p-4 rounded-sm border cursor-pointer transition-all ${
+          className={`p-4 rounded-sm border cursor-pointer transition-all cyber-card ${
             selectedPoc === 'ssrf'
               ? 'border-[#00f0ff] bg-gradient-to-br from-[#0c1825] to-[#080d14] shadow-[0_0_20px_rgba(0,240,255,0.15)]'
               : 'border-[#181f2e] bg-[#0c0e14] hover:border-[#2a374f]'
@@ -89,7 +89,7 @@ export const AegisPocLab: React.FC = () => {
         {/* IDOR Card */}
         <div
           onClick={() => { setSelectedPoc('idor'); setPocResult(null); }}
-          className={`p-4 rounded-sm border cursor-pointer transition-all ${
+          className={`p-4 rounded-sm border cursor-pointer transition-all cyber-card ${
             selectedPoc === 'idor'
               ? 'border-[#00f0ff] bg-gradient-to-br from-[#0c1825] to-[#080d14] shadow-[0_0_20px_rgba(0,240,255,0.15)]'
               : 'border-[#181f2e] bg-[#0c0e14] hover:border-[#2a374f]'
@@ -108,7 +108,7 @@ export const AegisPocLab: React.FC = () => {
         {/* Rate Limit Card */}
         <div
           onClick={() => { setSelectedPoc('rate_limit'); setPocResult(null); }}
-          className={`p-4 rounded-sm border cursor-pointer transition-all ${
+          className={`p-4 rounded-sm border cursor-pointer transition-all cyber-card ${
             selectedPoc === 'rate_limit'
               ? 'border-[#00f0ff] bg-gradient-to-br from-[#0c1825] to-[#080d14] shadow-[0_0_20px_rgba(0,240,255,0.15)]'
               : 'border-[#181f2e] bg-[#0c0e14] hover:border-[#2a374f]'

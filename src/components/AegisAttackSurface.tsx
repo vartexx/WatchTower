@@ -70,7 +70,7 @@ export const AegisAttackSurface: React.FC<AegisAttackSurfaceProps> = ({ onSelect
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-12">
+    <div className="space-y-6 animate-tab-enter pb-12">
       {/* Page Intro */}
       <div className="border-b border-[#181f2e] pb-4">
         <span className="text-[10px] text-[#00f0ff] tracking-widest uppercase block font-mono">

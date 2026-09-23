@@ -8,6 +8,7 @@ import { AegisPocLab } from './components/AegisPocLab';
 import { AegisEvidenceVault } from './components/AegisEvidenceVault';
 import { AegisNtroReport } from './components/AegisNtroReport';
 import { FindingModal } from './components/FindingModal';
+import { BottomTelemetryBar } from './components/BottomTelemetryBar';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Finding, SystemStatus } from './types';
 
@@ -179,10 +180,20 @@ export const App: React.FC = () => {
 
       {/* Floating Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#d9f0e5] text-[#0d2928] px-4 py-2.5 rounded text-xs font-mono font-semibold shadow-2xl animate-fade-in border border-[#a2d8c3]">
-          {toastMessage}
+        <div className="fixed bottom-16 right-6 z-50 bg-[#0c0e14] text-white px-4 py-2.5 rounded text-xs font-mono font-semibold shadow-[0_0_25px_rgba(0,240,255,0.35)] animate-slide-up-dock border border-[#00f0ff]/50 flex items-center space-x-2">
+          <span className="w-2 h-2 rounded-full bg-[#00f0ff] animate-ping inline-block" />
+          <span>{toastMessage}</span>
         </div>
       )}
+
+      {/* Bottom Telemetry & Quick Action Bar (coming from bottom to top) */}
+      <BottomTelemetryBar
+        status={status}
+        findingsCount={findings.length}
+        onQuickScan={handleQuickScan}
+        isScanning={isScanning}
+        onNavigateTab={changeTab}
+      />
     </AegisShell>
   );
 };
