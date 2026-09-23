@@ -2,11 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --ink: #e6edf0;
+  --muted: #7f939d;
+  --line: #253740;
+  --panel: #14242d;
+  --panel-2: #10202a;
+  --bg: #0b161d;
+  --cyan: #6be1d6;
+  --lime: #c2e66b;
+  --amber: #efb867;
+  --red: #ff746d;
+  --blue: #77a9ff;
+}
+
 @layer base {
   body {
-    background-color: #070b12;
-    color: #e2e8f0;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: #0b161d;
+    color: #e6edf0;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.01em;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', sans-serif;
   }
 
   /* Custom dark scrollbar */
@@ -15,41 +36,108 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0c1322;
+    background: #0b161d;
   }
   ::-webkit-scrollbar-thumb {
-    background: #233458;
+    background: #253740;
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #00f0ff;
+    background: #6be1d6;
   }
 }
 
-.glow-cyan {
-  box-shadow: 0 0 20px -5px rgba(0, 240, 255, 0.35);
-}
-
-.glow-danger {
-  box-shadow: 0 0 20px -5px rgba(255, 51, 102, 0.35);
-}
-
-.glow-neon {
-  box-shadow: 0 0 20px -5px rgba(0, 255, 136, 0.35);
-}
-
-.radar-sweep {
-  background: conic-gradient(from 0deg at 50% 50%, rgba(0, 240, 255, 0.2) 0deg, rgba(0, 240, 255, 0) 60deg);
-  animation: sweep 4s linear infinite;
-}
-
-@keyframes sweep {
-  from {
-    transform: rotate(0deg);
-  }
+/* Aegis Animations */
+@keyframes spin {
   to {
     transform: rotate(360deg);
   }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.35s ease;
+}
+
+.animate-radar-sweep {
+  animation: spin 4s linear infinite;
+}
+
+/* Radar Display Elements */
+.radar {
+  width: 230px;
+  height: 230px;
+  border: 1px solid #3c626a;
+  border-radius: 50%;
+  position: relative;
+  background: radial-gradient(circle, #21454a44, transparent 66%);
+}
+.radar:before {
+  content: '';
+  position: absolute;
+  background: #6be1d622;
+  height: 1px;
+  width: 100%;
+  top: 50%;
+}
+.radar:after {
+  content: '';
+  position: absolute;
+  background: #6be1d622;
+  width: 1px;
+  height: 100%;
+  left: 50%;
+}
+.radar-ring {
+  position: absolute;
+  inset: 25%;
+  border: 1px solid #6be1d633;
+  border-radius: 50%;
+}
+.ring-two {
+  inset: 12%;
+}
+.radar-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 20deg, transparent 0 72deg, #6be1d644 80deg, transparent 104deg);
+  animation: spin 4s linear infinite;
+}
+
+/* Threat Map */
+.threat-map {
+  height: 270px;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #24454a66 0, transparent 42%);
+}
+.map-lines {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(30deg, transparent 49.8%, #6be1d611 50%, transparent 50.3%),
+              linear-gradient(150deg, transparent 49.8%, #6be1d611 50%, transparent 50.3%);
+}
+
+/* Glow effects */
+.glow-cyan {
+  box-shadow: 0 0 15px -3px rgba(107, 225, 214, 0.4);
+}
+.glow-red {
+  box-shadow: 0 0 15px -3px rgba(255, 116, 109, 0.4);
+}
+.glow-lime {
+  box-shadow: 0 0 15px -3px rgba(194, 230, 107, 0.4);
 }
 
 /* Print stylesheet for official NTRO PDF report export */

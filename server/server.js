@@ -384,43 +384,24 @@ app.get('/api/report', (req, res) => {
   res.json(report);
 });
 
-// Serve SIH26163 (Aegis) UI untouched
+// Serve raw untouched SIH26163 UI at /sih26163 and /aegis
 const SIH26163_PATH = path.resolve(__dirname, '../sih26163');
-const DIST_PATH = path.resolve(__dirname, '../dist');
-
 if (fs.existsSync(SIH26163_PATH)) {
-  // Direct endpoints for sih26163 and alias
   app.use('/sih26163', express.static(SIH26163_PATH));
   app.use('/aegis', express.static(SIH26163_PATH));
-
-  // Serve SIH26163 UI directly at root / with no-cache headers
-  app.get('/', (req, res) => {
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.sendFile(path.join(SIH26163_PATH, 'index.html'));
-  });
-
-  // Serve static assets (styles.css, app.js) for root
-  app.use(express.static(SIH26163_PATH));
 }
 
-// Serve Watchtower React platform at /watchtower and SPA fallback
+// Serve unified Aegis // Watchtower security platform from dist
+const DIST_PATH = path.resolve(__dirname, '../dist');
 if (fs.existsSync(DIST_PATH)) {
-  app.use('/watchtower', express.static(DIST_PATH));
-  app.get('/watchtower*', (req, res) => {
-    res.sendFile(path.join(DIST_PATH, 'index.html'));
-  });
-
-  // Serve dist static assets (e.g. /assets/...)
+  // Static assets from dist
   app.use(express.static(DIST_PATH));
 
+  // Serve root / and all SPA routes
   app.get('*', (req, res) => {
     if (!req.path.startsWith('/api') && !req.path.startsWith('/sih26163') && !req.path.startsWith('/aegis')) {
-      if (fs.existsSync(SIH26163_PATH)) {
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-        res.sendFile(path.join(SIH26163_PATH, 'index.html'));
-      } else {
-        res.sendFile(path.join(DIST_PATH, 'index.html'));
-      }
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.sendFile(path.join(DIST_PATH, 'index.html'));
     }
   });
 }

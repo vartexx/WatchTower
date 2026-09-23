@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar } from './components/Navbar';
-import { ExecutiveDashboard } from './components/ExecutiveDashboard';
-import { ReconView } from './components/ReconView';
-import { ScannerHub } from './components/ScannerHub';
-import { FindingsTriage } from './components/FindingsTriage';
+import { AegisShell } from './components/AegisShell';
+import { AegisMissionControl } from './components/AegisMissionControl';
+import { AegisAttackSurface } from './components/AegisAttackSurface';
+import { AegisScannerHub } from './components/AegisScannerHub';
+import { AegisFindings } from './components/AegisFindings';
+import { AegisPocLab } from './components/AegisPocLab';
+import { AegisEvidenceVault } from './components/AegisEvidenceVault';
+import { AegisNtroReport } from './components/AegisNtroReport';
+import { AegisJudgePitch } from './components/AegisJudgePitch';
 import { FindingModal } from './components/FindingModal';
-import { SafePocLab } from './components/SafePocLab';
-import { NtroReportView } from './components/NtroReportView';
-import { JudgePitchMode } from './components/JudgePitchMode';
-import { AegisEmbeddedView } from './components/AegisEmbeddedView';
 import { Finding, SystemStatus } from './types';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('sih26163');
+  const [activeTab, setActiveTab] = useState<string>('overview');
   const [status, setStatus] = useState<SystemStatus | null>(null);
   const [findings, setFindings] = useState<Finding[]>([]);
   const [selectedFinding, setSelectedFinding] = useState<Finding | null>(null);
-  const [scopeFilter, setScopeFilter] = useState<string>('All');
+  const [isScanning, setIsScanning] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3500);
+  };
 
   const fetchStatus = async () => {
     try {
@@ -39,114 +44,132 @@ export const App: React.FC = () => {
     }
   };
 
-  useEffect(() => {
+  const refreshAll = () => {
     fetchStatus();
     fetchFindings();
+  };
+
+  useEffect(() => {
+    refreshAll();
   }, []);
 
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3500);
-  };
-
-  const handleResetData = async () => {
-    if (!confirm('Reset all findings back to clean benchmark seed state?')) return;
+  const handleQuickScan = async () => {
+    if (isScanning) return;
+    setIsScanning(true);
+    showToast('Simulation started: mapping 164 authorized assets.');
     try {
-      await fetch('/api/reset', { method: 'POST' });
-      await fetchStatus();
-      await fetchFindings();
-      showToast('Database reset to clean NTRO seed state.');
+      const res = await fetch('/api/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scanType: 'all' }),
+      });
+      const data = await res.json();
+      refreshAll();
+      showToast(`Scan complete: ${data.findingsCount || 0} findings updated.`);
     } catch (e) {
-      showToast('Error resetting database.');
+      showToast(`Scan error: ${e}`);
+    } finally {
+      setIsScanning(false);
     }
   };
 
-  const handleRunFullScan = () => {
-    setActiveTab('scanner');
-  };
-
-  const handleNavigateToScope = (tab: string, filterScope?: string) => {
-    if (filterScope) {
-      setScopeFilter(filterScope);
-    } else {
-      setScopeFilter('All');
+  const handleReset = async () => {
+    if (confirm('Reset findings database back to verified baseline benchmark state?')) {
+      try {
+        await fetch('/api/reset', { method: 'POST' });
+        refreshAll();
+        showToast('Database reset to clean NTRO benchmark state.');
+      } catch (e) {
+        showToast(`Reset failed: ${e}`);
+      }
     }
-    setActiveTab(tab);
   };
 
-  const handleFindingUpdated = (updated: Finding) => {
-    setFindings(prev => prev.map(f => f.id === updated.id ? updated : f));
-    fetchStatus();
-    showToast(`Finding ${updated.id} status updated to ${updated.status}.`);
+  const handleUpdateFindingStatus = async (findingId: string, newStatus: Finding['status']) => {
+    try {
+      const res = await fetch(`/api/findings/${findingId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setFindings((prev) => prev.map((f) => (f.id === findingId ? updated : f)));
+        showToast(`Finding ${findingId} updated to ${newStatus}.`);
+      }
+    } catch (e) {
+      showToast(`Failed to update finding: ${e}`);
+    }
+  };
+
+  const handleFindingModalUpdated = (updated: Finding) => {
+    setFindings((prev) => prev.map((f) => (f.id === updated.id ? updated : f)));
+    setSelectedFinding(null);
+    showToast(`Finding ${updated.id} metrics & triage saved.`);
   };
 
   return (
-    <div className="min-h-screen bg-[#070b12] text-slate-100 font-sans flex flex-col">
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-lg bg-cyber-850 border border-cyan-500/50 text-cyan-300 text-xs font-mono shadow-2xl flex items-center space-x-2 animate-bounce">
-          <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-          <span>{toastMessage}</span>
-        </div>
+    <AegisShell
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
+      status={status}
+      findingsCount={findings.length}
+      onReset={handleReset}
+      onQuickScan={handleQuickScan}
+      isScanning={isScanning}
+    >
+      {activeTab === 'overview' && (
+        <AegisMissionControl
+          status={status}
+          findings={findings}
+          onNavigateTab={setActiveTab}
+          onRunScan={handleQuickScan}
+          isScanning={isScanning}
+        />
       )}
 
-      {/* Navigation */}
-      <Navbar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        status={status}
-        onReset={handleResetData}
-      />
+      {activeTab === 'surface' && <AegisAttackSurface />}
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        {activeTab === 'dashboard' && (
-          <ExecutiveDashboard
-            status={status}
-            findings={findings}
-            onNavigateTab={handleNavigateToScope}
-            onRunScan={handleRunFullScan}
-          />
-        )}
+      {activeTab === 'scanner' && (
+        <AegisScannerHub
+          onScanComplete={refreshAll}
+          onNavigateToTriage={() => setActiveTab('findings')}
+        />
+      )}
 
-        {activeTab === 'recon' && <ReconView />}
+      {activeTab === 'findings' && (
+        <AegisFindings
+          findings={findings}
+          onSelectFindingForModal={(f) => setSelectedFinding(f)}
+          onNavigateToPoc={() => setActiveTab('poc')}
+          onUpdateFindingStatus={handleUpdateFindingStatus}
+        />
+      )}
 
-        {activeTab === 'scanner' && (
-          <ScannerHub
-            onScanComplete={() => {
-              fetchStatus();
-              fetchFindings();
-            }}
-            onNavigateToTriage={() => setActiveTab('triage')}
-          />
-        )}
+      {activeTab === 'poc' && <AegisPocLab />}
 
-        {activeTab === 'triage' && (
-          <FindingsTriage
-            findings={findings}
-            onSelectFinding={(f) => setSelectedFinding(f)}
-            activeScopeFilter={scopeFilter}
-          />
-        )}
+      {activeTab === 'evidence' && <AegisEvidenceVault />}
 
-        {activeTab === 'poc' && <SafePocLab />}
+      {activeTab === 'report' && <AegisNtroReport />}
 
-        {activeTab === 'report' && <NtroReportView />}
+      {activeTab === 'pitch' && <AegisJudgePitch />}
 
-        {activeTab === 'sih26163' && <AegisEmbeddedView />}
-
-        {activeTab === 'pitch' && <JudgePitchMode />}
-      </main>
-
-      {/* Finding Detail / CVSS Calculator Modal */}
+      {/* CVSS Modal */}
       {selectedFinding && (
         <FindingModal
           finding={selectedFinding}
           onClose={() => setSelectedFinding(null)}
-          onUpdate={handleFindingUpdated}
+          onUpdate={handleFindingModalUpdated}
         />
       )}
-    </div>
+
+      {/* Floating Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 bg-[#d9f0e5] text-[#0d2928] px-4 py-2.5 rounded text-xs font-mono font-semibold shadow-2xl animate-fade-in border border-[#a2d8c3]">
+          {toastMessage}
+        </div>
+      )}
+    </AegisShell>
   );
 };
 
