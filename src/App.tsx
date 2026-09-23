@@ -8,6 +8,7 @@ import { FindingModal } from './components/FindingModal';
 import { SafePocLab } from './components/SafePocLab';
 import { NtroReportView } from './components/NtroReportView';
 import { JudgePitchMode } from './components/JudgePitchMode';
+import { AegisEmbeddedView } from './components/AegisEmbeddedView';
 import { Finding, SystemStatus } from './types';
 
 export const App: React.FC = () => {
@@ -131,6 +132,8 @@ export const App: React.FC = () => {
         {activeTab === 'poc' && <SafePocLab />}
 
         {activeTab === 'report' && <NtroReportView />}
+
+        {activeTab === 'sih26163' && <AegisEmbeddedView />}
 
         {activeTab === 'pitch' && <JudgePitchMode />}
       </main>

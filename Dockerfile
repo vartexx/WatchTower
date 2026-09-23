@@ -26,8 +26,9 @@ ENV TARGET_PATH=/target
 COPY package*.json ./
 RUN npm ci --omit=dev
 
-# Copy server code and built frontend dist
+# Copy server code, built frontend dist, and untouched SIH26163 UI
 COPY server ./server
+COPY sih26163 ./sih26163
 COPY --from=builder /app/dist ./dist
 
 # Create mount point for target repository

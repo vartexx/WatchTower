@@ -248,7 +248,10 @@ docker compose logs -f
 # Stop the container
 docker compose down
 ```
-Access the dashboard: **`http://localhost:3001`**
+
+**Web Interfaces:**
+* **Watchtower VAPT Platform**: **`http://localhost:3001`**
+* **Aegis Security Assessment UI (`sih26163`)**: **`http://localhost:3001/sih26163`** (or via the **Aegis UI (SIH26163)** navigation tab)
 
 ### Option 2: Host Production Mode
 ```bash

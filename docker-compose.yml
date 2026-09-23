@@ -16,6 +16,12 @@ services:
     volumes:
       # Mount local World Monitor repo read-only for scanning
       - ./worldmonitor:/target:ro
+      # Mount SIH26163 UI untouched
+      - ./sih26163:/app/sih26163:ro
+      # Mount built frontend bundle
+      - ./dist:/app/dist:ro
+      # Mount server code for live updates
+      - ./server:/app/server
       # Persist findings database and reports
       - ./server/data:/app/server/data
     networks:

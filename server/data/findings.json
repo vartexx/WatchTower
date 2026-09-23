@@ -29,7 +29,8 @@
     ],
     "evidence": "GET /api/rss-proxy?url=http://127.0.0.1:6379/ HTTP/1.1\nHost: 127.0.0.1:3000\nUser-Agent: Watchtower-PoC-Runner\n\nHTTP/1.1 200 OK\nContent-Type: application/xml\n-ERR unknown command 'GET'",
     "remediation": "Implement strict IP destination validation: resolve domain to IPv4/IPv6 before initiating connection, reject all RFC 1918 private ranges, loopback (127.0.0.0/8), link-local (169.254.0.0/16), and cloud provider metadata addresses. Enforce an explicit allowlist of authorized RSS syndication domains.",
-    "validationNotes": "Confirmed by security analyst via local sinkhole. Edge proxy failed to filter internal loopback requests when octal IP formats were used."
+    "validationNotes": "Confirmed by security analyst via local sinkhole. Edge proxy failed to filter internal loopback requests when octal IP formats were used.",
+    "updatedAt": "2026-09-23T06:02:44.390Z"
   },
   {
     "id": "VAPT-26163-002",
@@ -68,7 +69,7 @@
     "title": "Broken Session Revocation & Insecure Cookie Storage",
     "scopeArea": "Authentication & sessions",
     "severity": "High",
-    "status": "Confirmed",
+    "status": "False Positive",
     "cwe": "CWE-384: Session Fixation / CWE-613: Insufficient Session Expiration",
     "component": "api/wm-session.js & api/_session.js",
     "description": "Session tokens generated on authentication lack active server-side revocation on logout. In addition, cookies set by fallback authentication endpoints omit the `SameSite=Strict` and `HttpOnly` flags in specific desktop sidecar bridge routes.",
@@ -93,7 +94,8 @@
     ],
     "evidence": "POST /api/wm-session/logout HTTP/1.1\nCookie: wm_session=tok_expired_123\n\nHTTP/1.1 200 OK\n\n-- Subsequent request --\nGET /api/me HTTP/1.1\nCookie: wm_session=tok_expired_123\n\nHTTP/1.1 200 OK\n{\"authenticated\": true, \"user\": \"analyst@gov.in\"}",
     "remediation": "Implement an explicit Redis session revocation blocklist (`revoked-session:<token_hash>`) with immediate invalidation on logout. Enforce `HttpOnly; Secure; SameSite=Lax` across all session cookies.",
-    "validationNotes": "Manually verified: Redis key remained alive and authorized requests succeeded after explicit user logout."
+    "validationNotes": "Manually verified: Redis key remained alive and authorized requests succeeded after explicit user logout.",
+    "updatedAt": "2026-09-23T05:56:23.122Z"
   },
   {
     "id": "VAPT-26163-004",
@@ -320,7 +322,7 @@
     "title": "Permissive CORS Header Configuration Detected in _cors.js",
     "scopeArea": "Secure communication",
     "severity": "Medium",
-    "status": "Unverified",
+    "status": "Confirmed",
     "cwe": "CWE-942: Permissive Cross-Origin Resource Sharing Policy",
     "component": "api/_cors.js:182",
     "description": "Static pattern analysis identified potentially risky construct matching rule [SAST-CORS-004] at line 182.",
@@ -345,7 +347,8 @@
     ],
     "evidence": "File: api/_cors.js\nLine 182: 'Access-Control-Allow-Origin': '*',",
     "remediation": "Restrict Access-Control-Allow-Origin to authorized origin domains or validate origin against an explicit domain allowlist.",
-    "validationNotes": ""
+    "validationNotes": "",
+    "updatedAt": "2026-09-23T06:07:00.957Z"
   },
   {
     "id": "SAST-PRIV-006-4",
@@ -384,7 +387,7 @@
     "title": "Potential Server-Side Request Forgery (SSRF) in Outbound Fetch Handler in _notification-webhook-ssrf.ts",
     "scopeArea": "Input validation",
     "severity": "Critical",
-    "status": "Unverified",
+    "status": "Confirmed",
     "cwe": "CWE-918: Server-Side Request Forgery (SSRF)",
     "component": "api/_notification-webhook-ssrf.ts:205",
     "description": "Static pattern analysis identified potentially risky construct matching rule [SAST-SSRF-003] at line 205.",
@@ -409,14 +412,15 @@
     ],
     "evidence": "File: api/_notification-webhook-ssrf.ts\nLine 205: const response = await fetch(url, {",
     "remediation": "Implement strict IP destination validation resolving hostnames and denying loopback (127.0.0.0/8), private RFC1918 blocks, and link-local cloud metadata ranges.",
-    "validationNotes": ""
+    "validationNotes": "",
+    "updatedAt": "2026-09-23T05:56:46.653Z"
   },
   {
     "id": "SAST-SSRF-003-6",
     "title": "Potential Server-Side Request Forgery (SSRF) in Outbound Fetch Handler in _relay.js",
     "scopeArea": "Input validation",
     "severity": "Critical",
-    "status": "Unverified",
+    "status": "Confirmed",
     "cwe": "CWE-918: Server-Side Request Forgery (SSRF)",
     "component": "api/_relay.js:31",
     "description": "Static pattern analysis identified potentially risky construct matching rule [SAST-SSRF-003] at line 31.",
@@ -441,7 +445,8 @@
     ],
     "evidence": "File: api/_relay.js\nLine 31: return await fetch(url, { ...options, signal: controller.signal });",
     "remediation": "Implement strict IP destination validation resolving hostnames and denying loopback (127.0.0.0/8), private RFC1918 blocks, and link-local cloud metadata ranges.",
-    "validationNotes": ""
+    "validationNotes": "",
+    "updatedAt": "2026-09-23T05:56:50.828Z"
   },
   {
     "id": "SAST-SEC-001-7",
@@ -992,7 +997,7 @@
     "title": "Potential Server-Side Request Forgery (SSRF) in Outbound Fetch Handler in mcp-proxy.ts",
     "scopeArea": "Input validation",
     "severity": "Critical",
-    "status": "Unverified",
+    "status": "Confirmed",
     "cwe": "CWE-918: Server-Side Request Forgery (SSRF)",
     "component": "api/mcp-proxy.ts:299",
     "description": "Static pattern analysis identified potentially risky construct matching rule [SAST-SSRF-003] at line 299.",
@@ -1017,7 +1022,8 @@
     ],
     "evidence": "File: api/mcp-proxy.ts\nLine 299: const response = await fetch(url.toString(), {",
     "remediation": "Implement strict IP destination validation resolving hostnames and denying loopback (127.0.0.0/8), private RFC1918 blocks, and link-local cloud metadata ranges.",
-    "validationNotes": ""
+    "validationNotes": "",
+    "updatedAt": "2026-09-23T05:56:52.950Z"
   },
   {
     "id": "SAST-CORS-004-25",

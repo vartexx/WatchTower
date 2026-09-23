@@ -38,7 +38,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     },
     { id: 'poc', label: 'Safe PoC Lab', icon: Cpu },
     { id: 'report', label: 'NTRO Official Report', icon: FileText },
-    { id: 'pitch', label: 'Judge Pitch & Q&A', icon: Presentation, highlight: true },
+    { id: 'sih26163', label: 'Aegis UI (SIH26163)', icon: Sparkles, highlight: true },
+    { id: 'pitch', label: 'Judge Pitch & Q&A', icon: Presentation },
   ];
 
   return (

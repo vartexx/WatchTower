@@ -384,12 +384,19 @@ app.get('/api/report', (req, res) => {
   res.json(report);
 });
 
+// Serve SIH26163 (Aegis) UI untouched
+const SIH26163_PATH = path.resolve(__dirname, '../sih26163');
+if (fs.existsSync(SIH26163_PATH)) {
+  app.use('/sih26163', express.static(SIH26163_PATH));
+  app.use('/aegis', express.static(SIH26163_PATH));
+}
+
 // Serve frontend in production build if dist directory exists
 const DIST_PATH = path.resolve(__dirname, '../dist');
 if (fs.existsSync(DIST_PATH)) {
   app.use(express.static(DIST_PATH));
   app.get('*', (req, res) => {
-    if (!req.path.startsWith('/api')) {
+    if (!req.path.startsWith('/api') && !req.path.startsWith('/sih26163') && !req.path.startsWith('/aegis')) {
       res.sendFile(path.join(DIST_PATH, 'index.html'));
     }
   });
