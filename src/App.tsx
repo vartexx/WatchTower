@@ -12,7 +12,7 @@ import { AegisEmbeddedView } from './components/AegisEmbeddedView';
 import { Finding, SystemStatus } from './types';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('dashboard');
+  const [activeTab, setActiveTab] = useState<string>('sih26163');
   const [status, setStatus] = useState<SystemStatus | null>(null);
   const [findings, setFindings] = useState<Finding[]>([]);
   const [selectedFinding, setSelectedFinding] = useState<Finding | null>(null);
