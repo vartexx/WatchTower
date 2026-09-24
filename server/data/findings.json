@@ -29,8 +29,7 @@
     ],
     "evidence": "GET /api/rss-proxy?url=http://127.0.0.1:6379/ HTTP/1.1\nHost: 127.0.0.1:3000\nUser-Agent: Watchtower-PoC-Runner\n\nHTTP/1.1 200 OK\nContent-Type: application/xml\n-ERR unknown command 'GET'",
     "remediation": "Implement strict IP destination validation: resolve domain to IPv4/IPv6 before initiating connection, reject all RFC 1918 private ranges, loopback (127.0.0.0/8), link-local (169.254.0.0/16), and cloud provider metadata addresses. Enforce an explicit allowlist of authorized RSS syndication domains.",
-    "validationNotes": "Confirmed by security analyst via local sinkhole. Edge proxy failed to filter internal loopback requests when octal IP formats were used.",
-    "updatedAt": "2026-09-23T06:02:44.390Z"
+    "validationNotes": "Confirmed by security analyst via local sinkhole. Edge proxy failed to filter internal loopback requests when octal IP formats were used."
   },
   {
     "id": "VAPT-26163-002",
@@ -69,7 +68,7 @@
     "title": "Broken Session Revocation & Insecure Cookie Storage",
     "scopeArea": "Authentication & sessions",
     "severity": "High",
-    "status": "False Positive",
+    "status": "Confirmed",
     "cwe": "CWE-384: Session Fixation / CWE-613: Insufficient Session Expiration",
     "component": "api/wm-session.js & api/_session.js",
     "description": "Session tokens generated on authentication lack active server-side revocation on logout. In addition, cookies set by fallback authentication endpoints omit the `SameSite=Strict` and `HttpOnly` flags in specific desktop sidecar bridge routes.",
@@ -94,8 +93,7 @@
     ],
     "evidence": "POST /api/wm-session/logout HTTP/1.1\nCookie: wm_session=tok_expired_123\n\nHTTP/1.1 200 OK\n\n-- Subsequent request --\nGET /api/me HTTP/1.1\nCookie: wm_session=tok_expired_123\n\nHTTP/1.1 200 OK\n{\"authenticated\": true, \"user\": \"analyst@gov.in\"}",
     "remediation": "Implement an explicit Redis session revocation blocklist (`revoked-session:<token_hash>`) with immediate invalidation on logout. Enforce `HttpOnly; Secure; SameSite=Lax` across all session cookies.",
-    "validationNotes": "Manually verified: Redis key remained alive and authorized requests succeeded after explicit user logout.",
-    "updatedAt": "2026-09-23T05:56:23.122Z"
+    "validationNotes": "Manually verified: Redis key remained alive and authorized requests succeeded after explicit user logout."
   },
   {
     "id": "VAPT-26163-004",
@@ -195,7 +193,7 @@
     "title": "Absence of Data Retention & PII Scrubbing Policy (DPDP Act 2023 Non-Compliance)",
     "scopeArea": "Data storage & privacy",
     "severity": "Medium",
-    "status": "Remediated",
+    "status": "Confirmed",
     "cwe": "CWE-359: Exposure of Private Personal Information",
     "component": "server/_shared/usage-telemetry.js & api/_client-ip.js",
     "description": "Client IP addresses, browser fingerprint user-agents, and location telemetry coordinates are cached in Upstash Redis without automated anonymization, hashing, or scheduled data purging mechanisms required under the Digital Personal Data Protection (DPDP) Act 2023.",
@@ -219,8 +217,7 @@
     ],
     "evidence": "Redis Key: telemetry:client:192.168.1.104\nPayload: {\"ip\": \"192.168.1.104\", \"ua\": \"Mozilla/5.0...\", \"timestamp\": 1726000000}\nTTL: -1 (Never expires)",
     "remediation": "Truncate or salt-hash client IP addresses (e.g. SHA-256(IP + daily_salt)). Set strict TTL (e.g. 72 hours) on telemetry records to satisfy DPDP Act 2023 purpose limitation and storage limitation principles.",
-    "validationNotes": "Confirmed by auditing server/_shared/usage-telemetry.js. Raw client IP is saved without salt-hashing or TTL.",
-    "updatedAt": "2026-09-23T05:12:54.447Z"
+    "validationNotes": "Confirmed by auditing server/_shared/usage-telemetry.js. Raw client IP is saved without salt-hashing or TTL."
   },
   {
     "id": "VAPT-26163-008",
@@ -322,7 +319,7 @@
     "title": "Permissive CORS Header Configuration Detected in _cors.js",
     "scopeArea": "Secure communication",
     "severity": "Medium",
-    "status": "Confirmed",
+    "status": "Unverified",
     "cwe": "CWE-942: Permissive Cross-Origin Resource Sharing Policy",
     "component": "api/_cors.js:182",
     "description": "Static pattern analysis identified potentially risky construct matching rule [SAST-CORS-004] at line 182.",
@@ -347,8 +344,7 @@
     ],
     "evidence": "File: api/_cors.js\nLine 182: 'Access-Control-Allow-Origin': '*',",
     "remediation": "Restrict Access-Control-Allow-Origin to authorized origin domains or validate origin against an explicit domain allowlist.",
-    "validationNotes": "",
-    "updatedAt": "2026-09-23T06:07:00.957Z"
+    "validationNotes": ""
   },
   {
     "id": "SAST-PRIV-006-4",
@@ -387,7 +383,7 @@
     "title": "Potential Server-Side Request Forgery (SSRF) in Outbound Fetch Handler in _notification-webhook-ssrf.ts",
     "scopeArea": "Input validation",
     "severity": "Critical",
-    "status": "Confirmed",
+    "status": "Unverified",
     "cwe": "CWE-918: Server-Side Request Forgery (SSRF)",
     "component": "api/_notification-webhook-ssrf.ts:205",
     "description": "Static pattern analysis identified potentially risky construct matching rule [SAST-SSRF-003] at line 205.",
@@ -412,15 +408,14 @@
     ],
     "evidence": "File: api/_notification-webhook-ssrf.ts\nLine 205: const response = await fetch(url, {",
     "remediation": "Implement strict IP destination validation resolving hostnames and denying loopback (127.0.0.0/8), private RFC1918 blocks, and link-local cloud metadata ranges.",
-    "validationNotes": "",
-    "updatedAt": "2026-09-23T05:56:46.653Z"
+    "validationNotes": ""
   },
   {
     "id": "SAST-SSRF-003-6",
     "title": "Potential Server-Side Request Forgery (SSRF) in Outbound Fetch Handler in _relay.js",
     "scopeArea": "Input validation",
     "severity": "Critical",
-    "status": "Confirmed",
+    "status": "Unverified",
     "cwe": "CWE-918: Server-Side Request Forgery (SSRF)",
     "component": "api/_relay.js:31",
     "description": "Static pattern analysis identified potentially risky construct matching rule [SAST-SSRF-003] at line 31.",
@@ -445,8 +440,7 @@
     ],
     "evidence": "File: api/_relay.js\nLine 31: return await fetch(url, { ...options, signal: controller.signal });",
     "remediation": "Implement strict IP destination validation resolving hostnames and denying loopback (127.0.0.0/8), private RFC1918 blocks, and link-local cloud metadata ranges.",
-    "validationNotes": "",
-    "updatedAt": "2026-09-23T05:56:50.828Z"
+    "validationNotes": ""
   },
   {
     "id": "SAST-SEC-001-7",
@@ -997,7 +991,7 @@
     "title": "Potential Server-Side Request Forgery (SSRF) in Outbound Fetch Handler in mcp-proxy.ts",
     "scopeArea": "Input validation",
     "severity": "Critical",
-    "status": "Confirmed",
+    "status": "Unverified",
     "cwe": "CWE-918: Server-Side Request Forgery (SSRF)",
     "component": "api/mcp-proxy.ts:299",
     "description": "Static pattern analysis identified potentially risky construct matching rule [SAST-SSRF-003] at line 299.",
@@ -1022,8 +1016,7 @@
     ],
     "evidence": "File: api/mcp-proxy.ts\nLine 299: const response = await fetch(url.toString(), {",
     "remediation": "Implement strict IP destination validation resolving hostnames and denying loopback (127.0.0.0/8), private RFC1918 blocks, and link-local cloud metadata ranges.",
-    "validationNotes": "",
-    "updatedAt": "2026-09-23T05:56:52.950Z"
+    "validationNotes": ""
   },
   {
     "id": "SAST-CORS-004-25",
